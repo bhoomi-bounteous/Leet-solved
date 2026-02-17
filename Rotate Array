@@ -1,0 +1,16 @@
+class Solution {
+    static void rotateArr(int arr[], int d) {
+        int n=arr.length;
+        if(n==1) return;
+        if(d>n) d=d%n;
+        if(d==n || d==0) return;
+        int[] narr=new int[d];
+        
+        for(int i=0;i<d;i++) narr[i]=arr[i];
+        for(int i=d;i<n;i++) arr[i-d]=arr[i];
+        for(int i=0;i<d;i++){
+            arr[n-d+i]=narr[i];
+        }
+        
+    }
+}
