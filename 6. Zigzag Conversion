@@ -1,0 +1,26 @@
+class Solution {
+    public String convert(String s, int numRows) {
+        if(numRows==1) return s;
+        List<StringBuilder> list= new ArrayList<>();
+        for(int i=0;i<numRows;i++) list.add(new StringBuilder());
+        int row=0;
+        int indx=0;
+        while(indx<s.length()){
+            while(row<numRows && indx<s.length()){
+                list.get(row).append(s.charAt(indx));
+                indx++;
+                row++;
+            }
+            row=numRows-2;
+            while(row>=0 && indx<s.length()){
+                list.get(row).append(s.charAt(indx));
+                indx++;
+                row--;
+            }
+            row=1;
+        }
+        StringBuilder ns=new StringBuilder();
+        for(StringBuilder st : list) ns.append(st);
+        return ns.toString();
+    }
+}
