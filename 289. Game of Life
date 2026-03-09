@@ -1,0 +1,33 @@
+class Solution {
+    public void gameOfLife(int[][] board) {
+        int[] rows={-1,-1,-1,0,0,1,1,1};
+        int[] cols={-1,0,1,-1,1,-1,0,1};
+        int n=board.length;
+        int m=board[0].length;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                int live=0;
+                for(int l=0;l<8;l++){
+                    int r=rows[l]+i;
+                    int c= cols[l]+j;
+                    if(r>=0 && r<n && c>=0 && c<m){
+                        if(board[r][c]==1 || board[r][c]==3)live++;
+                    }
+                }
+                if(board[i][j]==1){
+                    if(live==3 || live==2) board[i][j]=3;
+                   
+                }else{
+                   if(live==3) board[i][j]=2;
+                   
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==2 || board[i][j]==3) board[i][j]=1;
+                else board[i][j]=0;
+            }
+        }
+    }
+}
