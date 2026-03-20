@@ -1,0 +1,31 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        int val=Integer.MAX_VALUE;
+        Stack<Integer>stack=new Stack<>();
+        for(String c : tokens){
+            if(c.equals("+") || c.equals("-")|| c.equals("*") || c.equals("/")){
+                    switch(c){
+                        case "+":
+                           val=stack.pop()+stack.pop();
+                           break;
+                        case "-":
+                             val=-(stack.pop())+stack.pop();
+                             break;
+                        case "*":
+                             val=stack.pop()*stack.pop();
+                             break;
+                        case "/":
+                             int a=stack.pop();
+                             val=stack.pop()/a;
+                             break;
+                    }
+                    stack.add(val);
+                
+            }else{
+                stack.add(Integer.parseInt(c));
+            }
+        }
+        if(stack.size()==1) val=stack.pop();
+        return val;
+    }
+}
