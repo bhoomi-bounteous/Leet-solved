@@ -1,0 +1,10 @@
+class Solution {
+    public boolean sym(TreeNode ln,TreeNode rn){
+        if(ln==null && rn==null) return true;
+        if((ln==null && rn!=null) || (ln!=null && rn==null)) return false;
+        return (ln.val==rn.val) && sym(ln.left,rn.right) && sym(ln.right,rn.left);
+    }
+    public boolean isSymmetric(TreeNode root) {
+        return sym(root.left,root.right);
+    }
+}
