@@ -1,0 +1,15 @@
+class Solution {
+    int curr=Integer.MAX_VALUE;
+    Integer prev=null;
+    void minDiff(TreeNode root){
+       if(root==null) return;
+       minDiff(root.left);
+      if(prev!=null) curr=Math.min(curr,Math.abs((root.val-prev)));
+      prev=root.val;
+       minDiff(root.right);   
+    }
+    public int getMinimumDifference(TreeNode root) {
+        minDiff(root);
+        return curr;
+    }
+}
