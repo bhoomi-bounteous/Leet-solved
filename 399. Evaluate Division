@@ -1,0 +1,49 @@
+class Pair{
+    String key;
+    double val; 
+   Pair(String key,double val){
+     this.key=key;
+     this.val=val;
+   }
+}
+class Solution {
+    double dfs(String src,String dst,HashMap<String,List<Pair>> graph,HashSet<String> set){
+        set.add(src);
+        for(Pair p : graph.get(src)){
+            String next=p.key;
+            double wt=p.val;
+            if(next.equals(dst)){
+                return wt;
+            }
+            if(!set.contains(next)){
+                double res=dfs(next,dst,graph,set);
+                if(res!=-1) return res*wt;
+            }
+        }
+        return -1.0;
+    }
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        HashMap<String,List<Pair>> graph= new HashMap<>();
+        for(int i=0;i<equations.size();i++){
+            String first=equations.get(i).get(0);
+            String sec=equations.get(i).get(1);
+           if(!graph.containsKey(first)) graph.put(first,new ArrayList<>());
+           if(!graph.containsKey(sec)) graph.put(sec,new ArrayList<>());
+            graph.get(first).add(new Pair(sec,values[i]));
+            graph.get(sec).add(new Pair(first,1.0/values[i]));
+        }
+        double[] result= new double[queries.size()];
+        for(int i=0;i<queries.size();i++){
+            String src=queries.get(i).get(0);
+            String dst=queries.get(i).get(1);
+            if(!graph.containsKey(src) || !graph.containsKey(dst)){
+                result[i]=-1.0;
+            }else if( src.equals(dst)){
+                result[i]=1.0;
+            }else{
+                  result[i]=dfs(src,dst,graph,new HashSet<>());
+            }
+        }
+        return result;
+    }
+}
