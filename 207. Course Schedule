@@ -1,0 +1,29 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] pre) {
+        int[] deg=new int[numCourses];
+        List<List<Integer>> adj= new ArrayList<>();
+        for(int i=0;i<numCourses;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int i=0;i<pre.length;i++){
+          int val1=pre[i][0];
+          int val2=pre[i][1];
+          adj.get(val2).add(val1);
+          deg[val1]++;
+        }
+        Queue<Integer> q= new LinkedList<>();
+        for(int i=0;i<deg.length;i++){
+            if(deg[i]==0) q.add(i);
+        }
+        int count=0;
+        while(!q.isEmpty()){
+            Integer node=q.poll();
+            count++;
+            for(int i : adj.get(node)){
+                deg[i]--;
+                if(deg[i]==0) q.add(i);
+            }
+        }
+        return count==numCourses;
+    }
+}
