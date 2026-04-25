@@ -1,0 +1,29 @@
+class Solution {
+    int choco(int i,int j1,int j2,int[][][] dp,int[][] grid){
+         if(i>=grid.length || j1<0 || j1>=grid[0].length || j2<0 || j2>=grid[0].length) return 0;
+        if(i==grid.length-1) return dp[i][j1][j2]=grid[i][j1]+grid[i][j2];
+        if(dp[i][j1][j2]!=-1) return dp[i][j1][j2];
+        int[] col={-1,0,1};
+        int max=Integer.MIN_VALUE;
+        for(int l=0;l<3;l++){
+            int c1=j1+col[l];
+            for(int k=0;k<3;k++){
+                int c2=j2+col[k];
+                if(c1!=c2){ 
+                    int curr=choco(i+1,c1,c2,dp,grid)+grid[i][j1]+grid[i][j2];
+                    max=Math.max(max,curr);
+                }
+            }
+        }
+        return dp[i][j1][j2]=max;
+    }
+    public int maxChocolate(int grid[][]) {
+        int n=grid.length;
+        int m=grid[0].length;
+        int[][][] dp=new int[n][m][m];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++) Arrays.fill(dp[i][j],-1);
+        }
+        return choco(0,0,m-1,dp,grid);
+    }
+}
