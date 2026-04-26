@@ -1,0 +1,19 @@
+class Solution {
+    static Boolean isSum(int i,int target,int[] sum,Boolean[][] dp){
+      if(target==0) return true;
+      if(i>=sum.length || target<0) return false;
+        if(dp[i][target]!=null) return dp[i][target];
+        Boolean take=false;
+        if(sum[i]<=target){
+            take=isSum(i+1,target-sum[i],sum,dp);
+        }
+        boolean ntake=isSum(i+1,target,sum,dp);
+        return dp[i][target]=(take || ntake);
+    }
+    static Boolean isSubsetSum(int arr[], int sum) {
+        int n=arr.length;
+        Boolean[][] dp=new Boolean[n][sum+1];
+        return isSum(0,sum,arr,dp);
+        
+    }
+}
