@@ -1,0 +1,22 @@
+class Solution {
+    int perfect(int i,int target,int[] nums,int[][] dp){
+        if(i==nums.length){
+            return target==0 ? 1:0;
+        }
+        if(i>=nums.length) return 0;
+        if(dp[i][target]!=-1) return dp[i][target];
+        int pick=0;
+        if(nums[i]<=target){
+            pick=perfect(i+1,target-nums[i],nums,dp);
+        }
+        int npick=perfect(i+1,target,nums,dp);
+        return dp[i][target]=pick+npick;
+    }
+    // Function to calculate the number of subsets with a given sum
+    public int perfectSum(int[] nums, int target) {
+        int n=nums.length;
+        int[][] dp= new int[n][target+1];
+        for(int i=0;i<n;i++) Arrays.fill(dp[i],-1);
+        return perfect(0,target,nums,dp);
+    }
+}
