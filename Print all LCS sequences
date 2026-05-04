@@ -1,0 +1,43 @@
+class Solution {
+    public Set<String> lcs(int i,int j,String s1, String s2,Map<String,Set<String>> map
+    ,int[][] dp){
+        if(i==0 || j==0){
+           Set<String> base= new HashSet<>();
+           base.add("");
+           return base;
+        }
+        String key=i+","+j;
+        if(map.containsKey(key)) return map.get(key);
+        Set<String> result= new HashSet<>();
+        if(s1.charAt(i-1)==s2.charAt(j-1)){
+            char c=s1.charAt(i-1);
+             Set<String> set=lcs(i-1,j-1,s1,s2,map,dp);
+            for(String s :set ){
+                result.add(s+c);
+            }
+        }else{
+           if(dp[i-1][j]>=dp[i][j-1]) result.addAll(lcs(i-1,j,s1,s2,map,dp));
+           if(dp[i][j-1]>=dp[i-1][j])result.addAll(lcs(i,j-1,s1,s2,map,dp));
+        }
+        map.put(key,result);
+        return result;
+    }
+    public List<String> allLCS(String s1, String s2) {
+       int n=s1.length();
+       int m=s2.length();
+       int[][] dp= new int[n+1][m+1];
+       for(int i=1;i<=n;i++){
+           for(int j=1;j<=m;j++){
+               if(s1.charAt(i-1)==s2.charAt(j-1)) dp[i][j]=1+dp[i-1][j-1];
+               else{
+                   dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+               }
+           }
+       }
+       List<String> ans= new ArrayList<>(); 
+       Set<String> set=lcs(n,m,s1,s2,new HashMap<>(),dp);
+       for(String s : set) ans.add(s);
+       Collections.sort(ans);
+       return ans;
+    }
+}
